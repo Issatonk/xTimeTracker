@@ -2,11 +2,11 @@
 {
     public interface ILogService
     {
-        Task<bool> CreateLog(Log log);
-        Task<IEnumerable<Log>> GetLogs();
+        Task<bool> Create(Log log);
+        Task<IEnumerable<Log>> GetAll();
         Task<IEnumerable<Log>> GetLogsByDateInterval(DateTime startDate, DateTime endDate);
         Task<IEnumerable<Log>> GetLogsByTask(int taskId);
-        Task<bool> UpdateLog(Log log);
-        Task<bool> DeleteLog(int logId);
+        Task<bool> Update(Log log);
+        Task<bool> Delete(int logId);
     }
 }
