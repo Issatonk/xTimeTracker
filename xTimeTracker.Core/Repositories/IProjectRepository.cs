@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace xTimeTracker.Core.Repositories
 {
-    interface IProjectRepository
+    public interface IProjectRepository
     {
         Task<bool> CreateProject(Project project);
         Task<IEnumerable<Project>> GetProjects();
