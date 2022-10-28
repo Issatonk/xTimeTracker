@@ -3,17 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.API", "xTimeTracker.API\xTimeTracker.API.csproj", "{414BE7B9-09BD-4F42-AF19-12BDB9F56F91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.API", "xTimeTracker.API\xTimeTracker.API.csproj", "{414BE7B9-09BD-4F42-AF19-12BDB9F56F91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.Core", "xTimeTracker.Core\xTimeTracker.Core.csproj", "{FB8DB86F-5623-415F-8769-186FB35F33B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.Core", "xTimeTracker.Core\xTimeTracker.Core.csproj", "{FB8DB86F-5623-415F-8769-186FB35F33B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.BusinessLogic", "xTimeTracker.BusinessLogic\xTimeTracker.BusinessLogic.csproj", "{2AA02BA6-53E8-4592-8A4E-4032846DC47F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.BusinessLogic", "xTimeTracker.BusinessLogic\xTimeTracker.BusinessLogic.csproj", "{2AA02BA6-53E8-4592-8A4E-4032846DC47F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FB8DB86F-5623-415F-8769-186FB35F33B9} = {FB8DB86F-5623-415F-8769-186FB35F33B9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.DataAccess.MSSQL", "xTimeTracker.DataAccess.MSSQL\xTimeTracker.DataAccess.MSSQL.csproj", "{00F95232-6D32-4575-9B1C-554FE135FC4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.DataAccess.MSSQL", "xTimeTracker.DataAccess.MSSQL\xTimeTracker.DataAccess.MSSQL.csproj", "{00F95232-6D32-4575-9B1C-554FE135FC4A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{43F5197F-9120-4FDC-B2CA-3BB8ABE61C0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.BusinessLogic.Tests", "xTimeTracker.BusinessLogic.Tests\xTimeTracker.BusinessLogic.Tests.csproj", "{9E3F3557-6660-4943-8823-264D0D21CE35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.BusinessLogic.Tests", "xTimeTracker.BusinessLogic.Tests\xTimeTracker.BusinessLogic.Tests.csproj", "{9E3F3557-6660-4943-8823-264D0D21CE35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
