@@ -1,6 +1,6 @@
 ﻿namespace xTimeTracker.Core.Services
 {
-    interface ITaskService
+    public interface ITaskService
     {
         Task<bool> CreateTask(Task task);
         Task<IEnumerable<Task>> GetTasksByProject(int projectId);

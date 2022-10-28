@@ -1,6 +1,6 @@
 ﻿namespace xTimeTracker.Core.Repositories
 {
-    interface ITaskRepository
+    public interface ITaskRepository
     {
         Task<bool> CreateTask(Task task);
         Task<IEnumerable<Task>> GetTasksByProject(int projectId);

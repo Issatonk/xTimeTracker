@@ -1,6 +1,6 @@
 ﻿namespace xTimeTracker.Core.Services
 {
-    interface ILogService
+    public interface ILogService
     {
         Task<bool> CreateLog(Log log);
         Task<IEnumerable<Log>> GetLogs();
