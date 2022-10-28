@@ -9,6 +9,8 @@ namespace xTimeTracker.Core
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        public TimeSpan TimeSpent {get; set; }
+        public TimeSpan TimeSpent { get; set; }
+
+        public int TaskId { get; set; }
     }
 }

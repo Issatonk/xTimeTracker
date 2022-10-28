@@ -12,5 +12,7 @@ namespace xTimeTracker.Core
         public TimeSpan TimeSpent { get; set; }
 
         public int Percent => (int)(TimeSpent / Plan * 100);
+
+        public ICollection<Task> Tasks { get; set; }
     }
 }

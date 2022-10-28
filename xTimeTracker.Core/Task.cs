@@ -14,5 +14,8 @@ namespace xTimeTracker.Core
         public TimeSpan TimeSpent { get; set; }
 
         public int Percent => (int)(TimeSpent / Plan * 100);
+
+        public int ProjectId { get; set; }
+        public ICollection<Log> Logs { get; set; }
     }
 }
