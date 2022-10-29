@@ -17,6 +17,7 @@ builder.Services.AddSingleton<ConnectionString>(provider => new ConnectionString
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ILogRepository, LogRepository>();
 
 builder.Services.AddAutoMapper(cfg =>
 {
