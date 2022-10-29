@@ -13,6 +13,7 @@ namespace xTimeTracker.DataAccess.MSSQL
         {
             CreateMap<Core.Project, Entities.Project>().ReverseMap();
             CreateMap<Core.Task, Entities.Task>().ReverseMap();
+            CreateMap<Core.Log, Entities.Log>().ReverseMap();
         }
     }
 }
