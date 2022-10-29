@@ -33,11 +33,10 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             IEnumerable<Core.Task> result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "SELECT * FROM Task WHERE Id = @projectId";
-                result = _mapper.Map<
-                    IEnumerable<Entities.Task>,
-                    IEnumerable<Core.Task>>( 
-                    await db.QueryAsync<Entities.Task>(sqlQuery, new {projectId}));
+                var sqlQuery = "SELECT * FROM Task WHERE ProjectId = @projectId";
+                var tasks =  await db.QueryAsync<Entities.Task>(sqlQuery, new {projectId});
+
+                result = _mapper.Map<IEnumerable<Entities.Task>, IEnumerable<Core.Task>>(tasks);
             }
             return result;
         }

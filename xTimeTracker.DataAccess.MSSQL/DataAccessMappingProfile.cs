@@ -14,10 +14,19 @@ namespace xTimeTracker.DataAccess.MSSQL
             CreateMap<Core.Project, Entities.Project>()
                 .ForMember(proj => proj.TimeSpent, option=> option.MapFrom(src=> src.TimeSpent.TotalSeconds))
                 .ForMember(proj=> proj.Plan, option => option.MapFrom(src => src.Plan.TotalSeconds));
+
             CreateMap<Entities.Project, Core.Project>()
                 .ForMember(proj=>proj.TimeSpent, option =>option.MapFrom(src => TimeSpan.FromSeconds(src.TimeSpent)))
                 .ForMember(proj=>proj.Plan, option => option.MapFrom(src => TimeSpan.FromSeconds(src.Plan)));
-            CreateMap<Core.Task, Entities.Task>().ReverseMap();
+
+            CreateMap<Core.Task, Entities.Task>()
+                .ForMember(proj => proj.TimeSpent, option => option.MapFrom(src => src.TimeSpent.TotalSeconds))
+                .ForMember(proj => proj.Plan, option => option.MapFrom(src => src.Plan.TotalSeconds));
+
+            CreateMap<Entities.Task, Core.Task>()
+                .ForMember(proj => proj.TimeSpent, option => option.MapFrom(src => TimeSpan.FromSeconds(src.TimeSpent)))
+                .ForMember(proj => proj.Plan, option => option.MapFrom(src => TimeSpan.FromSeconds(src.Plan)));
+
             CreateMap<Core.Log, Entities.Log>().ReverseMap();
         }
     }
