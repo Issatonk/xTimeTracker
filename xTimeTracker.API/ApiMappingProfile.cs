@@ -17,7 +17,13 @@ namespace xTimeTracker.API
                 .ForMember(task => task.Plan, option => option.MapFrom(src => new TimeSpan(src.Hours, src.Minutes, src.Seconds)));
 
             CreateMap<TaskUpdateRequest, Core.Task>()
-                .ForMember(proj => proj.Plan, option => option.MapFrom(src => new TimeSpan(src.Hours, src.Minutes, src.Seconds)));
+                .ForMember(task => task.Plan, option => option.MapFrom(src => new TimeSpan(src.Hours, src.Minutes, src.Seconds)));
+
+            CreateMap<LogCreateRequest, Core.Log>()
+                .ForMember(log => log.TimeSpent, option => option.MapFrom(src => new TimeSpan(src.Hours, src.Minutes, src.Seconds)));
+
+            CreateMap<LogUpdateRequest, Core.Log>()
+                .ForMember(log => log.TimeSpent, option => option.MapFrom(src => new TimeSpan(src.Hours, src.Minutes, src.Seconds)));
         }
     }
 }

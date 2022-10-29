@@ -33,7 +33,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             IEnumerable<Log> result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "SELECT * FROM Log";
+                var sqlQuery = "SELECT * FROM Log ORDER BY Date";
                 result = _mapper.Map<
                     IEnumerable<Entities.Log>, 
                     IEnumerable<Core.Log>>( 
@@ -47,7 +47,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             IEnumerable<Log> result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "SELECT * FROM Log WHERE Date BETWEEN @startDate AND @endDate";
+                var sqlQuery = "SELECT * FROM Log WHERE Date BETWEEN @startDate AND @endDate ORDER BY Date";
                 result = _mapper.Map<
                     IEnumerable<Entities.Log>,
                     IEnumerable<Core.Log>>(
@@ -61,7 +61,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             IEnumerable<Log> result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "SELECT * FROM Log WHERE taskId = @taskId";
+                var sqlQuery = "SELECT * FROM Log WHERE taskId = @taskId ORDER BY Date";
                 result = _mapper.Map<
                     IEnumerable<Entities.Log>,
                     IEnumerable<Core.Log>>(
