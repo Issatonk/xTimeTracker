@@ -47,7 +47,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             int result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "UPDATE Task SET Name = @Name, Plan = @Plan";
+                var sqlQuery = "UPDATE Task SET Name = @Name, Plan = @Plan WHERE Id = @Id";
                 result = await db.ExecuteAsync(sqlQuery, _mapper.Map<Core.Task, Entities.Task>(task));
             }
             return result == 0 ? false : true;
