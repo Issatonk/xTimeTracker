@@ -22,7 +22,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             int result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "INSERT INTO Task (Name, Plan, TimeSpent, ProjectId) VALUES(@Name, @Plan, @TimeSpent, @ProjectId)";
+                var sqlQuery = "INSERT INTO Task (Name, [Plan], TimeSpent, ProjectId) VALUES(@Name, @Plan, @TimeSpent, @ProjectId)";
                 result = await db.ExecuteAsync(sqlQuery, _mapper.Map<Core.Task, Entities.Task>(task));
             }
             return result == 0 ? false : true;
@@ -47,7 +47,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             int result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "UPDATE Task SET Name = @Name, Plan = @Plan WHERE Id = @Id";
+                var sqlQuery = "UPDATE Task SET Name = @Name, [Plan] = @Plan WHERE Id = @Id";
                 result = await db.ExecuteAsync(sqlQuery, _mapper.Map<Core.Task, Entities.Task>(task));
             }
             return result == 0 ? false : true;

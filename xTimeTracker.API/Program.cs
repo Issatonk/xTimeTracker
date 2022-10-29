@@ -1,5 +1,8 @@
+using xTimeTracker.API;
+using xTimeTracker.BusinessLogic;
 using xTimeTracker.Core;
 using xTimeTracker.Core.Repositories;
+using xTimeTracker.Core.Services;
 using xTimeTracker.DataAccess.MSSQL;
 using xTimeTracker.DataAccess.MSSQL.Repositories;
 
@@ -19,9 +22,14 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ILogRepository, LogRepository>();
 
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<ILogService, LogService>();
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<DataAccessMappingProfile>();
+    cfg.AddProfile<ApiMappingProfile>();
 });
 
 var app = builder.Build();

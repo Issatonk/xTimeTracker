@@ -9,7 +9,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Entities
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        public TimeSpan TimeSpent { get; set; }
+        public int TimeSpent { get; set; }
 
         public int TaskId { get; set; }
     }
