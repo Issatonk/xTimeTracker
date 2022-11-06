@@ -20,9 +20,10 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
         public async Task<bool> CreateLog(Log log)
         {
             int result;
+            string date2 = DateTime.UtcNow.ToString("yyyy-mm-dd");
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "INSERT INTO Task (Date, TimeSpent, TaskId) VALUES(@Date, @TimeSpent, @TaskId)";
+                var sqlQuery = "INSERT INTO Log ([Date], [TimeSpent], [TaskId]) VALUES(@Date, @TimeSpent, @TaskId)";
                 result = await db.ExecuteAsync(sqlQuery, _mapper.Map<Core.Log, Entities.Log>(log));
             }
             return result == 0 ? false : true;
