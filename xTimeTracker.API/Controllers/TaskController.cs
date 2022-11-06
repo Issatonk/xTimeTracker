@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using xTimeTracker.API.Models;
 using xTimeTracker.Core.Services;
 
@@ -25,7 +26,7 @@ namespace xTimeTracker.API.Controllers
         {
             var task = _mapper.Map<TaskCreateRequest, Core.Task>(taskRequest);
             var result = await _taskService.Create(task);
-
+            _logger.LogInformation("post\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(taskRequest), result);
             if (!result)
             {
                 return BadRequest();
@@ -37,6 +38,7 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> GetByProject(int projectId)
         {
             var result = await _taskService.GetTasksByProject(projectId);
+            _logger.LogInformation("get\n\tDateTime: {0}", DateTime.Now);
             if (result == null)
             {
                 return BadRequest();
@@ -50,6 +52,9 @@ namespace xTimeTracker.API.Controllers
             var task = _mapper.Map<TaskUpdateRequest, Core.Task>(taskRequest);
             var result = await _taskService.Update(task);
 
+            _logger.LogInformation("put\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(taskRequest), result);
+
+
             if (!result)
             {
                 return BadRequest();
@@ -61,6 +66,9 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Delete(int taskId)
         {
             var result = await _taskService.Delete(taskId);
+
+            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, projectId, result);
+
             if (!result)
             {
                 return BadRequest();

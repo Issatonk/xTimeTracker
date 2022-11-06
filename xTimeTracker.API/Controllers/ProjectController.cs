@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using xTimeTracker.API.Models;
 using xTimeTracker.Core;
 using xTimeTracker.Core.Services;
@@ -12,20 +14,22 @@ namespace xTimeTracker.API.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IMapper _mapper;
-        private readonly ILogger<ProjectController> _loger;
+        private readonly ILogger<ProjectController> _logger;
 
-        public ProjectController(IProjectService projectService, IMapper mapper, ILogger<ProjectController> loger)
+        public ProjectController(IProjectService projectService, IMapper mapper, ILogger<ProjectController> logger)
         {
             _projectService = projectService;
             _mapper = mapper;
-            _loger = loger;
+            _logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ProjectCreateRequest projectRequest)
-        {
+        {   
             var project = _mapper.Map<ProjectCreateRequest, Core.Project>(projectRequest);
             var result = await _projectService.CreateProject(project);
+
+            _logger.LogInformation("post\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(projectRequest), result);
 
             if (!result)
             {
@@ -38,7 +42,8 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Get()
         {
             var result = await _projectService.GetProjects();
-            if(result == null)
+            _logger.LogInformation("get\n\tDateTime: {0}", DateTime.Now);
+            if (result == null)
             {
                 return BadRequest();
             }
@@ -51,6 +56,8 @@ namespace xTimeTracker.API.Controllers
             var result = await _projectService.UpdateProject(
                 _mapper.Map<ProjectUpdateRequest, Core.Project>(projectRequest));
 
+            _logger.LogInformation("put\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(projectRequest), result);
+
             if (!result)
             {
                 return BadRequest();
@@ -61,6 +68,9 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Delete(int projectId)
         {
             var result = await _projectService.DeleteProject(projectId);
+
+            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, projectId, result);
+
             if (!result)
             {
                 return BadRequest();

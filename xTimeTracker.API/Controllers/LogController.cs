@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using xTimeTracker.API.Models;
 using xTimeTracker.BusinessLogic;
 using xTimeTracker.Core.Services;
@@ -27,6 +28,8 @@ namespace xTimeTracker.API.Controllers
             var log = _mapper.Map<LogCreateRequest, Core.Log>(logRequest);
             var result = await _logService.Create(log);
 
+            _logger.LogInformation("post\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);
+
             if (!result)
             {
                 return BadRequest();
@@ -37,6 +40,9 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Get()
         {
             var result = await _logService.GetAll();
+
+            _logger.LogInformation("get\n\tDateTime: {0}", DateTime.Now);
+
             if (result == null)
             {
                 return BadRequest();
@@ -47,6 +53,9 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Get(int taskId)
         {
             var result = await _logService.GetLogsByTask(taskId);
+
+            _logger.LogInformation("getByTask\n\tDateTime: {0}\n\ttaskId: {1}", DateTime.Now, taskId);
+
             if (result == null)
             {
                 return BadRequest();
@@ -57,6 +66,9 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Get(DateTime startDate, DateTime endDate)
         {
             var result = await _logService.GetLogsByDateInterval(startDate, endDate);
+
+            _logger.LogInformation("getByDate\n\tDateTime: {0}\n\tstart: {1}\n\tend: {2}", DateTime.Now, startDate.Date, endDate.Date);
+
             if (result == null)
             {
                 return BadRequest();
@@ -70,6 +82,9 @@ namespace xTimeTracker.API.Controllers
             var log = _mapper.Map<LogUpdateRequest, Core.Log>(logRequest);
             var result = await _logService.Update(log);
 
+            _logger.LogInformation("put\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);
+
+
             if (!result)
             {
                 return BadRequest();
@@ -81,6 +96,10 @@ namespace xTimeTracker.API.Controllers
         public async Task<IActionResult> Delete(int logId)
         {
             var result = await _logService.Delete(logId);
+
+            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, logId, result);
+
+
             if (!result)
             {
                 return BadRequest();
