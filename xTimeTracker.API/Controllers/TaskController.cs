@@ -67,7 +67,7 @@ namespace xTimeTracker.API.Controllers
         {
             var result = await _taskService.Delete(taskId);
 
-            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, projectId, result);
+            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, taskId, result);
 
             if (!result)
             {
