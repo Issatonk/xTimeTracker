@@ -12,5 +12,6 @@ namespace xTimeTracker.Core.Services
         Task<IEnumerable<Project>> GetProjects();
         Task<bool> UpdateProject(Project project);
         Task<bool> DeleteProject(int projectId);
+        Task<IEnumerable<TimeProjectsByDate>> GetTimeForProjectsByDate(DateTime start, DateTime end);
     }
 }
