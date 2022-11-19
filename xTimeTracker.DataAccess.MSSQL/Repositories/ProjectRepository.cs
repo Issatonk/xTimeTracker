@@ -65,5 +65,30 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             }
             return result == 0 ? false : true;
         }
+        public async Task<IEnumerable<Core.Project>> GetProjectsWithLogs(DateTime start, DateTime end)
+        {
+            IEnumerable<Core.Project> result;
+            string projectsQuery = "SELECT * FROM Project";
+            string tasksQuery = "SELECT * FROM Task WHERE Id IN (SELECT TaskId FROM Log WHERE Date BETWEEN @start AND @end)";
+            string logsQuery = "SELECT * FROM Log WHERE Date BETWEEN @start AND @end";
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {          
+                var projects = await db.QueryAsync<Entities.Project>(projectsQuery);
+                var tasks = await db.QueryAsync<Entities.Task>(tasksQuery, new { start, end });
+                var logs = await db.QueryAsync<Entities.Log>(logsQuery, new { start, end });
+
+                foreach (var project in projects)
+                {
+                    project.Tasks = tasks.Where(t => t.ProjectId == project.Id).ToList();
+                    foreach (var task in project.Tasks)
+                    {
+                        task.Logs = logs.Where(l => l.TaskId == task.Id).ToList();
+                    }
+                }
+
+                result = _mapper.Map<IEnumerable<Entities.Project>, IEnumerable<Core.Project>>(projects);
+            }
+            return result;
+        }
     }
 }

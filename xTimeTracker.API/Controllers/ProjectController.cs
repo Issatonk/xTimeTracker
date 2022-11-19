@@ -5,6 +5,7 @@ using System.Text.Json;
 using xTimeTracker.API.Models;
 using xTimeTracker.Core;
 using xTimeTracker.Core.Services;
+using xTimeTracker.DataAccess.MSSQL.Entities;
 
 namespace xTimeTracker.API.Controllers
 {
@@ -77,5 +78,16 @@ namespace xTimeTracker.API.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("ProjectsWithTime")]
+        public async Task<IActionResult> GetProjectsWithTime([FromQuery]GetProjectWithTimeRequest dates)
+        {
+            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: startDate = {1} endDate = {2}\n\tResponse: {3} ", DateTime.Now, dates.Start, dates.End, result);
+
+            var result = await _projectService.GetTimeForProjectsByDate(dates.Start, dates.End);
+
+            return Ok(result);
+        }
+
     }
 }
