@@ -22,7 +22,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             int result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "INSERT INTO Task (Name, [Plan], TimeSpent, ProjectId) VALUES(@Name, @Plan, @TimeSpent, @ProjectId)";
+                var sqlQuery = "INSERT INTO Task (Name, [Plan], ProjectId) VALUES(@Name, @Plan, @ProjectId)";
                 result = await db.ExecuteAsync(sqlQuery, _mapper.Map<Core.Task, Entities.Task>(task));
             }
             return result == 0 ? false : true;
@@ -33,7 +33,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             IEnumerable<Core.Task> result;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = "SELECT * FROM Task WHERE ProjectId = @projectId";
+                var sqlQuery = "SELECT Task.Id, Task.Name, Task.[Plan], Task.ProjectId, SUM(Log.TimeSpent) AS TimeSpent FROM Task LEFT JOIN Log ON Task.Id = Log.TaskId GROUP BY Task.Id, Task.Name, Task.[Plan], Task.ProjectId HAVING Task.ProjectId = @projectId";
                 var tasks =  await db.QueryAsync<Entities.Task>(sqlQuery, new {projectId});
 
                 result = _mapper.Map<IEnumerable<Entities.Task>, IEnumerable<Core.Task>>(tasks);
