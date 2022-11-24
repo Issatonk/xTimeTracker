@@ -6,6 +6,7 @@
         Task<IEnumerable<Log>> GetAll();
         Task<IEnumerable<Log>> GetLogsByDateInterval(DateTime startDate, DateTime endDate);
         Task<IEnumerable<Log>> GetLogsByTask(int taskId);
+        Task<IEnumerable<LogWithTaskNameAndProjectName>> GetLogsWithTaskNameAndProjectName();
         Task<bool> Update(Log log);
         Task<bool> Delete(int logId);
     }

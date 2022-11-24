@@ -76,6 +76,14 @@ namespace xTimeTracker.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("logWithTaskAndProjectNames")]
+        public async Task<IActionResult> GetWithNames()
+        {
+            var result = await _logService.GetLogsWithTaskNameAndProjectName();
+            return Ok(result);
+        }
+
+
         [HttpPut]
         public async Task<IActionResult> Update(LogUpdateRequest logRequest)
         {

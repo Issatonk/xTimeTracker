@@ -44,7 +44,21 @@ namespace xTimeTracker.BusinessLogic
             }
             return await _logRepository.GetLogsByTask(taskId);
         }
+        public async Task<IEnumerable<LogWithTaskNameAndProjectName>> GetLogsWithTaskNameAndProjectName()
+        {
+            var logs = await _logRepository.GetLogsWithProject();
 
+            var result = logs.Select(l => new LogWithTaskNameAndProjectName
+            {
+                Id = l.Id,
+                Date = l.Date,
+                TimeSpent = l.TimeSpent,
+                TaskName = l.Task.Name,
+                ProjectName = l.Task.Project.Name
+            });
+            return result;
+
+        }
         public async Task<bool> Update(Log log)
         {
             if (log == null)
@@ -61,5 +75,7 @@ namespace xTimeTracker.BusinessLogic
             }
             return await _logRepository.DeleteLog(logId);
         }
+
+
     }
 }
