@@ -19,34 +19,27 @@ namespace xTimeTracker.BusinessLogic
         {
             if (project == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Project is null");
             }
+            if (project.Id != 0 || string.IsNullOrWhiteSpace(project.Name) || project.Plan.Ticks <=0)
+            {
+                throw new ArgumentException("Project is invalid");
+            }
+            project.Name= project.Name.Trim();
             return await _projectRepository.CreateProject(project);
         }
         public async Task<IEnumerable<Project>> GetProjects()
         {
             return await _projectRepository.GetProjects();
         }
-        public async Task<bool> UpdateProject(Project project)
-        {
-            if (project == null)
-            {
-                throw new ArgumentNullException();
-            }
-            return await _projectRepository.UpdateProject(project);
-        }
 
-        public async Task<bool> DeleteProject(int projectId)
-        {
-            if (projectId <= 0)
-            {
-                throw new ArgumentException();
-            }
-
-            return await _projectRepository.DeleteProject(projectId);
-        }
         public async Task<IEnumerable<TimeProjectsByDate>> GetTimeForProjectsByDate(DateTime start, DateTime end)
         {
+
+            if(start > end)
+            {
+                throw new ArgumentException("startDate > endDate");
+            }
             var projects = await _projectRepository.GetProjectsWithLogs(start, end);
 
             List<TimeProjectsByDate> result = new List<TimeProjectsByDate>();
@@ -60,7 +53,9 @@ namespace xTimeTracker.BusinessLogic
                     .Select(t => new ProjectNameWithTime()
                     {
                         Name = t.Name,
-                        Time = new TimeSpan(t.Tasks.Select(x => x.Logs.Where(l => l.Date == i).Sum(l => l.TimeSpent.Ticks)).Sum()).TotalMilliseconds
+                        Time = Math.Truncate(
+                            new TimeSpan(t.Tasks.Select(x => x.Logs.Where(l => l.Date == i).Sum(l => l.TimeSpent.Ticks)).Sum())
+                                .TotalMilliseconds)
                     }).ToList()
                 };
                 result.Add(timeProjects);
@@ -68,5 +63,30 @@ namespace xTimeTracker.BusinessLogic
 
             return result;
         }
+
+        public async Task<bool> UpdateProject(Project project)
+        {
+            if (project == null)
+            {
+                throw new ArgumentNullException("project is null");
+            }
+            if(project.Id <= 0 || string.IsNullOrWhiteSpace(project.Name) || project.Plan.Ticks<=0)
+            {
+                throw new ArgumentException("projectIsInvalid");
+            }
+            project.Name = project.Name.Trim();
+            return await _projectRepository.UpdateProject(project);
+        }
+
+        public async Task<bool> DeleteProject(int projectId)
+        {
+            if (projectId <= 0)
+            {
+                throw new ArgumentException("project id <= 0");
+            }
+
+            return await _projectRepository.DeleteProject(projectId);
+        }
+
     }
 }
