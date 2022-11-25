@@ -14,7 +14,11 @@ namespace xTimeTracker.BusinessLogic
         {
             if (task == null)
             {
-                throw new ArgumentNullException(nameof(task));
+                throw new ArgumentNullException(nameof(task) + " is null");
+            }
+            if(task.Id != 0 || string.IsNullOrWhiteSpace(task.Name) ||task.Plan.Ticks<=0)
+            {
+                throw new ArgumentException(nameof(task) + " is invalid");
             }
             return await _taskRepository.CreateTask(task);
         }
@@ -31,6 +35,10 @@ namespace xTimeTracker.BusinessLogic
             if (task == null)
             {
                 throw new ArgumentNullException();
+            }
+            if (task.Id <= 0 || string.IsNullOrWhiteSpace(task.Name) || task.Plan.Ticks <= 0)
+            {
+                throw new ArgumentException(nameof(task) + " is invalid");
             }
             return await _taskRepository.UpdateTask(task);
         }
