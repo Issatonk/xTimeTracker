@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{43F5197F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xTimeTracker.BusinessLogic.Tests", "xTimeTracker.BusinessLogic.Tests\xTimeTracker.BusinessLogic.Tests.csproj", "{9E3F3557-6660-4943-8823-264D0D21CE35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xTimeTracker.API.IntegrationTests", "xTimeTracker.API.IntegrationTests\xTimeTracker.API.IntegrationTests.csproj", "{E0DB2384-9B33-4A0B-A57D-3788BE854BED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,12 +46,17 @@ Global
 		{9E3F3557-6660-4943-8823-264D0D21CE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E3F3557-6660-4943-8823-264D0D21CE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E3F3557-6660-4943-8823-264D0D21CE35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0DB2384-9B33-4A0B-A57D-3788BE854BED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0DB2384-9B33-4A0B-A57D-3788BE854BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0DB2384-9B33-4A0B-A57D-3788BE854BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0DB2384-9B33-4A0B-A57D-3788BE854BED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9E3F3557-6660-4943-8823-264D0D21CE35} = {43F5197F-9120-4FDC-B2CA-3BB8ABE61C0C}
+		{E0DB2384-9B33-4A0B-A57D-3788BE854BED} = {43F5197F-9120-4FDC-B2CA-3BB8ABE61C0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1AF03402-82DD-4785-B424-2A2AB3CDC73B}
