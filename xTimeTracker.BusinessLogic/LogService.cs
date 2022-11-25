@@ -15,9 +15,13 @@ namespace xTimeTracker.BusinessLogic
 
         public async Task<bool> Create(Log log)
         {
-            if (log == null)
+            if (log == null )
             {
                 throw new ArgumentNullException(nameof(log));
+            }
+            if(log.Id != 0 || log.Date == DateTime.MinValue || log.TimeSpent.Ticks <= 0 || log.TaskId<=0)
+            {
+                throw new ArgumentException("log is invalid");
             }
             return await _logRepository.CreateLog(log);
         }
@@ -29,7 +33,7 @@ namespace xTimeTracker.BusinessLogic
 
         public async Task<IEnumerable<Log>> GetLogsByDateInterval(DateTime startDate, DateTime endDate)
         {
-            if(startDate.Date > endDate.Date)
+            if (startDate.Date > endDate.Date)
             {
                 throw new ArgumentException();
             }
@@ -44,6 +48,7 @@ namespace xTimeTracker.BusinessLogic
             }
             return await _logRepository.GetLogsByTask(taskId);
         }
+
         public async Task<IEnumerable<LogWithTaskNameAndProjectName>> GetLogsWithTaskNameAndProjectName()
         {
             var logs = await _logRepository.GetLogsWithProject();
@@ -64,6 +69,10 @@ namespace xTimeTracker.BusinessLogic
             if (log == null)
             {
                 throw new ArgumentNullException(nameof(log));
+            }
+            if (log.Id <= 0 || log.Date == DateTime.MinValue || log.TimeSpent.Ticks <= 0 || log.TaskId<=0)
+            {
+                throw new ArgumentException("log is invalid");
             }
             return await _logRepository.UpdateLog(log);
         }

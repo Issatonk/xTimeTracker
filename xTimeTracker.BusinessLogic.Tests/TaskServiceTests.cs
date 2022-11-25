@@ -16,17 +16,18 @@ namespace xTimeTracker.BusinessLogic.Tests
     {
         private readonly Mock<ITaskRepository> _repositoryMock;
         private readonly TaskService _service;
-        private readonly Fixture fixture = new Fixture();
+        private readonly Fixture _fixture;
         public TaskServiceTests()
         {
             _repositoryMock = new Mock<ITaskRepository>();
             _service = new TaskService(_repositoryMock.Object);
+            _fixture = new Fixture();
         }
         [Fact]
         public async Task CreateProject_ProjectIsValid_ShouldReturnTrue()
         {
             //arrange
-            var task = fixture.Build<Core.Task>()
+            var task = _fixture.Build<Core.Task>()
                 .With(x => x.Id, 0)
                 .Without(x => x.Logs)
                 .Without(x=>x.Project)
@@ -68,7 +69,7 @@ namespace xTimeTracker.BusinessLogic.Tests
         {
             //arrange
             const int projectId = 1;
-            var tasks = fixture.Build<Core.Task>()
+            var tasks = _fixture.Build<Core.Task>()
                 .Without(x => x.Logs)
                 .Without(x => x.Project)
                 .With(x=>x.ProjectId, projectId)
@@ -96,7 +97,7 @@ namespace xTimeTracker.BusinessLogic.Tests
         public async Task UpdateTask_TaskIsValid_ShouldReturnTrue()
         {
             //arrange
-            var task = fixture.Build<Core.Task>()
+            var task = _fixture.Build<Core.Task>()
                 .Without(x=>x.Logs)
                 .Without(x => x.Project).Create();
             _repositoryMock.Setup(x => x.UpdateTask(task)).ReturnsAsync(true);

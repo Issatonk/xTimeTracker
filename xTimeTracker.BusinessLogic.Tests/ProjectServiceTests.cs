@@ -14,12 +14,13 @@ namespace xTimeTracker.BusinessLogic.Tests
     {
         private readonly ProjectService _service;
         private readonly Mock<IProjectRepository> _repositoryMock;
-        private readonly Fixture fixture = new Fixture();
+        private readonly Fixture _fixture;
 
         public ProjectServiceTests()
         {
             _repositoryMock = new Mock<IProjectRepository>();
             _service = new ProjectService(_repositoryMock.Object);
+            _fixture = new Fixture();
             
         }
 
@@ -27,7 +28,7 @@ namespace xTimeTracker.BusinessLogic.Tests
         public async Task CreateProject_ProjectIsValid_ShouldReturnTrue()
         {
             //arrange
-            var project = fixture.Build<Project>()
+            var project = _fixture.Build<Project>()
                 .With(x => x.Id, 0)
                 .Without(x=>x.Tasks)
                 .Create();
@@ -67,7 +68,7 @@ namespace xTimeTracker.BusinessLogic.Tests
         public async Task GetProjects_ShouldReturnProjects()
         {
             //arrange
-            var projects = fixture.Build<Project>().Without(x=>x.Tasks).CreateMany();
+            var projects = _fixture.Build<Project>().Without(x=>x.Tasks).CreateMany();
             _repositoryMock.Setup(x=>x.GetProjects()).ReturnsAsync(projects);
             //act
             var result = await _service.GetProjects();
@@ -86,19 +87,19 @@ namespace xTimeTracker.BusinessLogic.Tests
             const int increasedDateRange = 2;
             int range = (endDate - startDate).Days + increasedDateRange;
 
-            List<Log> log = fixture.Build<Log>().Without(x => x.Task)
+            List<Log> log = _fixture.Build<Log>().Without(x => x.Task)
                 .CreateMany(8).ToList();
             foreach(var l in log) { 
                 l.Date = startDate.AddDays(rnd.Next(range)-increasedDateRange/2); 
                 l.TimeSpent = new TimeSpan(rnd.Next(2),rnd.Next(60), rnd.Next(60));
             }
-            var task1 = fixture.Build<Core.Task>()
+            var task1 = _fixture.Build<Core.Task>()
                 .Without(x=>x.Project)
                 .With(x=>x.Logs, log.Take(log.Count / 2).ToList()).Create();
-            var task2 = fixture.Build<Core.Task>()
+            var task2 = _fixture.Build<Core.Task>()
                 .Without(x=>x.Project)
                 .With(x => x.Logs, log.TakeLast(log.Count() / 2).ToList()).Create();
-            var project = fixture.Build<Project>().With(x => x.Tasks, new List<Core.Task>() { task1, task2 }).Create();
+            var project = _fixture.Build<Project>().With(x => x.Tasks, new List<Core.Task>() { task1, task2 }).Create();
 
             var expected = new List<TimeProjectsByDate>()
             {
@@ -139,7 +140,7 @@ namespace xTimeTracker.BusinessLogic.Tests
         public async Task UpdateProject_ProjectIsValid_ShouldReturnTrue()
         {
             //arrange
-            var project = fixture.Build<Project>().Without(x=>x.Tasks).Create();
+            var project = _fixture.Build<Project>().Without(x=>x.Tasks).Create();
             _repositoryMock.Setup(x=>x.UpdateProject(project)).ReturnsAsync(true);
             //act
             var result = await _service.UpdateProject(project);
