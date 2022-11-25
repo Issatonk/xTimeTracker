@@ -25,79 +25,123 @@ namespace xTimeTracker.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(LogCreateRequest logRequest)
         {
-            var log = _mapper.Map<LogCreateRequest, Core.Log>(logRequest);
-            var result = await _logService.Create(log);
-
-            _logger.LogInformation("post\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);
-
-            if (!result)
+            try
             {
-                return BadRequest();
+                var log = _mapper.Map<LogCreateRequest, Core.Log>(logRequest);
+                var result = await _logService.Create(log);
+
+
+                if (!result)
+                {
+                    return StatusCode(417, "ExpectationFailed");
+                }
+                _logger.LogInformation("post\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);           
+                return Ok();
             }
-            return Ok();
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
         [HttpGet("logs")]
         public async Task<IActionResult> Get()
         {
-            var result = await _logService.GetAll();
-
-            _logger.LogInformation("get\n\tDateTime: {0}", DateTime.Now);
-
-            if (result == null)
+            try
             {
-                return BadRequest();
+                var result = await _logService.GetAll();
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                _logger.LogInformation("get\n\tDateTime: {0}", DateTime.Now);
+                return Ok(result);
             }
-            return Ok(result);
+            catch(Exception ex)
+            {
+                return StatusCode(417, "ExpectationFailed");
+            }
         }
+
         [HttpGet("tasklogs")]
         public async Task<IActionResult> Get(int taskId)
         {
-            var result = await _logService.GetLogsByTask(taskId);
-
-            _logger.LogInformation("getByTask\n\tDateTime: {0}\n\ttaskId: {1}", DateTime.Now, taskId);
-
-            if (result == null)
+            try
             {
-                return BadRequest();
+                var result = await _logService.GetLogsByTask(taskId);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                _logger.LogInformation("getByTask\n\tDateTime: {0}\n\ttaskId: {1}", DateTime.Now, taskId);
+                return Ok(result);
             }
-            return Ok(result);
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
         [HttpGet("intervallogs")]
         public async Task<IActionResult> Get(DateTime startDate, DateTime endDate)
         {
-            var result = await _logService.GetLogsByDateInterval(startDate, endDate);
-
-            _logger.LogInformation("getByDate\n\tDateTime: {0}\n\tstart: {1}\n\tend: {2}", DateTime.Now, startDate.Date, endDate.Date);
-
-            if (result == null)
+            try
             {
-                return BadRequest();
+                var result = await _logService.GetLogsByDateInterval(startDate, endDate);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                _logger.LogInformation("getByDate\n\tDateTime: {0}\n\tstart: {1}\n\tend: {2}", DateTime.Now, startDate.Date, endDate.Date);
+                return Ok(result);
             }
-            return Ok(result);
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("logWithTaskAndProjectNames")]
         public async Task<IActionResult> GetWithNames()
         {
-            var result = await _logService.GetLogsWithTaskNameAndProjectName();
-            return Ok(result);
+            try
+            {
+                var result = await _logService.GetLogsWithTaskNameAndProjectName();
+                if(result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch
+            {
+                return StatusCode(417, "ExpectationFailed");
+            }
         }
-
 
         [HttpPut]
         public async Task<IActionResult> Update(LogUpdateRequest logRequest)
         {
-            var log = _mapper.Map<LogUpdateRequest, Core.Log>(logRequest);
-            var result = await _logService.Update(log);
-
-            _logger.LogInformation("put\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);
-
-
-            if (!result)
+            try
             {
-                return BadRequest();
+                var log = _mapper.Map<LogUpdateRequest, Core.Log>(logRequest);
+                var result = await _logService.Update(log);
+
+                if (!result)
+                {
+                    return StatusCode(417, "ExpectationFailed");
+                }
+
+                _logger.LogInformation("put\n\tDateTime: {0}\n\tRequest: {1}\n\tResponse: {2} ", DateTime.Now, JsonSerializer.Serialize(logRequest), result);
+                return Ok();
             }
-            return Ok();
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete]
