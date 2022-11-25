@@ -147,16 +147,22 @@ namespace xTimeTracker.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int logId)
         {
-            var result = await _logService.Delete(logId);
-
-            _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, logId, result);
-
-
-            if (!result)
+            try
             {
-                return BadRequest();
+                var result = await _logService.Delete(logId);
+
+                if (!result)
+                {
+                    return StatusCode(417, "ExpectationFailed");
+                }
+
+                _logger.LogInformation("delete\n\tDateTime: {0}\n\tRequest: projectId = {1}\n\tResponse: {2} ", DateTime.Now, logId, result);
+                return Ok();
             }
-            return Ok();
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
