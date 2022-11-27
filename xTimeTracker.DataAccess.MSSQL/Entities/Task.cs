@@ -15,5 +15,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Entities
 
         public int ProjectId { get; set; }
         public ICollection<Log> Logs { get; set; }
+
+        public Project Project { get; set; }
     }
 }

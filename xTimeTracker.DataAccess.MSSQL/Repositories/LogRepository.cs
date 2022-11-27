@@ -71,6 +71,27 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<Log>> GetLogsWithProject()
+        {
+
+            const string logQuery = "SELECT * FROM Log ORDER BY Date";
+            const string taskQuery = "SELECT * FROM Task";
+            const string projectQuery = "SELECT * FROM Project";
+            IEnumerable<Entities.Log> result;
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                result = await db.QueryAsync<Entities.Log>(logQuery);
+                var tasks = await db.QueryAsync<Entities.Task>(taskQuery);
+                var projects = await db.QueryAsync<Entities.Project>(projectQuery);
+                foreach (var log in result)
+                {
+                    log.Task = tasks.First(l => l.Id == log.TaskId);
+                    log.Task.Project = projects.First(t => t.Id == log.Task.ProjectId);
+                }
+            }
+            return _mapper.Map<IEnumerable<Entities.Log>,IEnumerable<Core.Log>>(result);
+        }
+
         public async Task<bool> UpdateLog(Log log)
         {
             int result;
@@ -91,5 +112,7 @@ namespace xTimeTracker.DataAccess.MSSQL.Repositories
             }
             return result == 0 ? false : true;
         }
+
+
     }
 }
